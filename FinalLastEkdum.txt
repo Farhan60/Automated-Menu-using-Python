@@ -1,0 +1,353 @@
+import os
+import getpass
+import subprocess
+
+print("==============================================================================")
+print("\t\t\t WELCOME TO THE MENU")
+print("==============================================================================")
+os.system("espeak-ng 'WELCOME TO THE MENU' ")
+password = getpass.getpass("Enter the password")
+
+if password != "1" :
+    print("Wrong Password")
+    exit()
+
+while True:
+    os.system("sleep 2")
+    os.system("clear")
+
+    print("""
+       \n
+      Press 1:  Linux Commands
+      Press 2:  Web Service
+      Press 3:  Hadoop
+      Press 4:  Docker
+      Press 5:  AWS
+      Press 6:  LVM
+  """)
+    
+    ch=input("Enter your choice:")
+
+    if int(ch)==1:
+        r=int(input("Press 1 for REMOTE login. \nPress 2 for LOCAL login"))
+        if r==2:
+            print("""
+              \n
+                  press 1:  Check Date
+                  press 2:  View Calendar
+                  press 3:  Reboot System
+                  press 4:  Process list
+                  press 5:  Memory Usage
+                  press 6:  Add User
+                  press 7:  IP Configuration
+                  press 8:  Clear Cache
+                  press 8:  Exit
+                """)
+        
+            l=input("Enter your choice: ")
+            if int(l)==1:
+                os.system("date")
+            elif int(l)==2:
+                os.system("cal")
+            elif int(l)==3:
+                os.system("reboot")
+            elif int(l)==4:
+                os.system("ls cpu")
+            elif int(l)==5:
+                os.system("free -m")
+            elif int(l)==6:
+                n=input("User Name: ")
+                os.system("add user {}". format(n))
+            elif int(l)==7:
+                os.system("ifconfig enp0s3")
+            elif int(l)==8:
+                os.system("echo 3> /proc/sys/vm/drop-caches")
+            elif int(l)==9:
+                exit()
+        
+        elif r==1:
+            
+        
+            ip=input("enter the desired IP: ")
+            print("""
+              \n
+                  press 1:  Check Date
+                  press 2:  View Calendar
+                  press 3:  Reboot System
+                  press 4:  Process list
+                  press 5:  Memory Usage
+                  press 6:  Add User
+                  press 7:  IP Configuration
+                  press 8:  Clear Cache
+                  press 8:  Exit
+                """)
+            ch=int(input("enter your choice"))
+            if int(ch)==1:
+                os.system("ssh {} date". format(ip))
+            elif int(ch)==2:
+                os.system("ssh {} cal". format(ip))
+            elif int(ch)==3:
+                os.system("ssh {} reboot". format (ip))
+            elif int(ch)==4:
+                os.system("ssh {} ls cpu". format(ip))
+            elif int(ch)==5:
+                os.system("ssh {} free -m". format (ip))
+            elif int(ch)==6:
+                n=input("User Name: ")
+                os.system("ssh {} add user {}". format(n). format(ip))
+            elif int(ch)==7:
+                os.system("ssh {} ifconfig enp0s3". format(ip))
+            elif int(ch)==8:
+                os.system("ssh {} echo 3> /proc/sys/vm/drop-caches". format (ip))
+            elif int(ch)==9:
+                exit()
+        
+    elif int(ch)==2:
+        print("""
+              \n
+              press 1:  Start Web Service
+              press 2:  Check Web Service Status
+              press 3:  Stop Web Service
+                """)
+        w=int(input("Enter your choice: "))
+        if int(w)==1:
+            os.system("systemctl start httpd")
+        elif int(w)==2:
+            os.system("systemctl status httpd")
+        elif int(w)==3:
+            os.system("systemctl stop httpd")
+    
+    elif int(ch)==3:
+        print("""
+              \n
+              press 1:  Start Data Node
+              press 2:  Remote Login
+              press 3:  Cluster Report
+              press 4:  Go Back
+            """)
+        
+        h=input("Enter your choice : ")
+    
+        if int(h)==1:
+            os.system("hadoop-daemon.sh start datanode")
+        elif int(h)==2:
+            print("Please choose the remote login for configuring the master")
+        elif int(h)==3:
+            os.system("hadoop dfsadmin -report")
+        else:
+            print("Please enter a valid choice")
+    
+    elif int(ch)==4:  
+        print("""
+                  \n
+              press 1:  Start Docker
+              press 2:  Check Docker Status
+              press 3:  Stop Docker
+              press 4:  Enable Docker
+              press 5:  Disable Docker
+              press 6:  Docker Images
+              press 7:  Enter Docker Images
+              press 8:  Check Docker Status
+              press 9:  Stop Docker
+              press 10:  Go Back
+            """)
+        
+        d=input("Enter your choice : ")
+
+        if int(d)==1:
+            os.system("systemctl start docker")
+        elif int(d)==2:
+            os.system("systemctl status docker")
+        elif int(d)==3:
+            os.system("systemctl stop docker")
+        elif int(d)==4:
+            os.system("systemctl enable docker")
+        elif int(d)==5:
+            os.system("systemctl disable docker")
+        elif int(d)==6:
+            os.system("docker images")
+        elif int(d)==7:
+            img=input("Enter the image you want to launch: ")
+            ver=input("Enter the preffered version: ")
+            os.system("docker run -it {}:{}". format(img,ver))
+        elif int(d)==8:
+            img=input("Enter the image you want to launch: ")
+            ver=input("Enter the preffered version: ")
+            os.system("docker pull {}:{}". format(img,ver))
+        elif int(d)==10:
+                exit()
+        else:
+            print("Please enter a valid choice")
+
+    elif int(ch)==5:
+        print("""
+              \n
+                press 1:  Create Key Pair
+                press 2:  Create new AWS Instance
+                press 3:  Start AWS Instance
+                press 4:  Describe EC2 Instance
+                press 5:  Create EBS Volume
+                press 6:  Attach EBS Volume to EC2 Instance
+                press 7:  Create S3 Bucket
+                press 8:  Upload file in bucket
+                press 9:  Create a distribution in aws CloudFront
+                press 10: Go Back
+                """)
+      
+        a=input("Enter your choice : ")
+        if int(a)==1 :
+            key_name = input("Enter key name: ")
+            command = "aws ec2 create-key-pair --key-name " + key_name + " --output text > "+ key_name+".pem"
+            command_executor(command)
+
+        elif int(a)==2:
+            imageId = "ami-052c08d70def0ac62"
+            instancetype = "t2.micro"
+            instance_count = "1"
+            key_name = input("key-name : ")
+            print("Note : Default values are set so that you do not use options other than free tier")
+            print("imageId = " + imageId + "\nInstance type = " + instancetype + "\nInstance count = " + instance_count)
+            command = "aws ec2 run-instances --image-id "+ imageId + " --instance-type " + instancetype + " --count " + instance_count + " --key-name " + key_name
+            command_executor(command)
+
+        elif int(a)==3:
+            instanceId = input("Enter instance id to start a instance : ")
+            command = "aws ec2 start-instances --instance-ids "+ instanceId 
+            command_executor(command)
+
+        elif int(a)== 4:
+            command = "aws ec2 describe-instances" 
+            command_executor(command)
+
+        elif int(a)== 5:
+            size = input("Enter size of ebs volume : ")
+            region = input("Enter availability zone : ")
+            if int(size) <= 5 : 
+                command = "aws ec2 create-volume --volume-type gp2 --size " + size + " --availability-zone " + region
+            else: 
+                print("Size must be less than 5 Gib")
+            command_executor(command)
+
+        elif int(a)==6:
+            volume_id = input("Enter Volume id of ebs storage : ")
+            instance_id = input("Enter Instance id :")
+            device = input("Enter device name[ex - /dev/sdf] : ")
+            command = "aws ec2 attach-volume --volume-id " + volume_id + " --instance-id " + instance_id + " --device " + device
+            command_executor(command)
+
+        elif int(a)==7:
+                bucket_name = input("Enter bucket name : ")
+                regions3 = input("Enter region : ")
+                command = "aws s3api create-bucket --bucket " + bucket_name + " --region " + regions3
+                command_executor(command)
+
+        elif int(a)==8:
+            file_path = input("Enter file path[ex - c:\\users\\d\\desktop\\image.jpg]: ")
+            bucket_name1 = input("Enter Bucket name")
+            filename = input("What should be the file name of your file in s3 bucket?:  ")
+
+            command = "aws s3 cp " + file_path + " s3://" + bucket_name1 + "/" + filename
+            command_executor(command)
+            
+        elif int(a)==9:
+            domain_name = input("Enter a domain to create a distribution : ")
+            command = "aws cloudfront create-distribution --origin-domain-name " + domain_name
+            command_executor(command)
+            
+        elif int(a)==10:
+            exit()
+            break
+        else:
+            print("Please enter a valid choice")
+             
+    elif int(ch)==6:
+    
+        print('''
+        Press 1 :  Check Hardisk Info
+        Press 2 :  Create Physical Volume
+        Press 3 :  Create Volume Group
+        Press 4 :  Create - Format - Mount Partition
+        Press 5 :  Extend Volume Sizw 
+        Press 6 :  Go Back
+            ''')
+
+        lvm=int(input("Enter your choice : "))
+
+        if lvm==1:
+            os.system("fdisk -l")
+
+        elif lvm==2:
+            os.system("fdisk -l")
+            pv1 = input("\nSelect the first hard disk that you want to create as physical volume : ")
+            output1 = subprocess.getstatusoutput("pvcreate {}".format(pv1))
+            print(output1)
+            pv2 = input("\nSelect the second hard disk that you want to create as physical volume : ")
+            output2 = subprocess.getstatusoutput("pvcreate {}".format(pv2))
+            print(output2)
+            os.system("tput setaf 3")
+            print("\nPHYSICAL VOLUMES CREATED ...")
+            os.system("tput setaf 7")
+            os.system("pvdisplay")
+
+        elif lvm== 3:
+            os.system("pvdisplay")
+            vg_name = input("\nEnter name that you want to give to your Volume Group : ")
+            pv1 = input("\nEnter first Physical Volume that will give space to Volume Group : ")
+            pv2 = input("\nEnter first Physical Volume that will give space to Volume Group : ")
+            output2 = subprocess.getstatusoutput("vgcreate  {}  {} {}".format(vg_name,pv1,pv2))
+            print(output2)
+
+            os.system("tput setaf 3")
+            print("\nVOLUME GROUP")
+            os.system("tput setaf 7")
+            os.system("vgdisplay")
+
+        elif lvm== 4 :
+            pa = input("\nEnter the LVM size you want to create in GiB (e.g.) 10G : ")
+            pa_name = input("\nEnter the name of LVM : ")
+            vg = input("\nEnter Volume Group from which you want to create LVM : ")
+            output3 = subprocess.getstatusoutput("lvcreate --size {}  --name {}  {}".format(pa, pa_name, vg))
+            print(output3)
+
+            os.system("tput setaf 2")
+            print("\nFormatting LVM !!!")
+            os.system("tput setaf 7")
+            output4 = subprocess.getoutput("mkfs.ext4  /dev/{}/{}".format(vg, pa_name))
+            print(output4)
+
+
+            dir = input("\nEnter the directory to which you want to mount the partition : ")
+            output5 = subprocess.getstatusoutput("mount /dev/{}/{} {}".format(vg, pa_name, dir))
+            os.system("tput setaf 2")
+            print("\nMounting the partition")
+            os.system("tput setaf 7")
+            print(output5)
+
+            os.system("tput setaf 3")
+            print("\nLOGICAL VOLUMES...")
+            os.system("tput setaf 7")
+            os.system("lvdisplay")
+
+        elif lvm==5 :
+            lve = input("\nEnter the size how much you want to extend : ")	
+            vg1 = input("\nEnter Volume Group from which you want to extend : ")
+            pa_name1 = input("\nEnter the name of LVM : ")
+            output5 = subprocess.getstatusoutput("lvextend  --size {} /dev/{}/{}".format(lve,vg1,pa_name1))
+            print(output5)
+        
+            os.system("tput setaf 2")
+            print("\nFormatting the extend partition... ")
+            os.system("tput setaf 7")
+            output6 = subprocess.getstatusoutput("resize2fs /dev/{}/{}".format(vg1,pa_name1))
+            print(output6)
+            
+        elif int(lvm)==10:
+            exit()
+
+        else:
+            print("Please enter a valid choice")
+            break
+      
+    else:
+        print("Invalid Choice")
+
